@@ -25,12 +25,7 @@ public class CustomerThread extends Thread {
 
     @Override
     public void run() {
-        /*ReentrantLock timeLock = new ReentrantLock();
-        try{
-            timeLock.lock();
-        } finally {
-            timeLock.unlock();
-        }*/
+
         seatTime = Restaurant.getTime();
         System.out.println(ID + " Entering restaurant at time: " + Restaurant.getTime());
         while (true){

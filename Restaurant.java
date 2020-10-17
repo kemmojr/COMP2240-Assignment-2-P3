@@ -1,7 +1,6 @@
 
 
 import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -10,14 +9,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Restaurant {
     private static int servedCustomers;
     private static AtomicBoolean full;
-    private static AtomicInteger avaliableSeats, time;
+    private static AtomicInteger availableSeats, time;
     private int totalCustomers;
     private static int threadTimeRemaining;
     private static ArrayList<CustomerThread> finishedCustomers;
     
     public Restaurant(int numSeats, int numTotalCustomers){
         time = new AtomicInteger(0);
-        avaliableSeats = new AtomicInteger(numSeats);
+        availableSeats = new AtomicInteger(numSeats);
         totalCustomers = numTotalCustomers;
         servedCustomers = 0;
         full = new AtomicBoolean(false);
@@ -34,26 +33,31 @@ public class Restaurant {
         threadTimeRemaining--;
     }
 
-    public static synchronized int getAvaliableSeats(){
-        return avaliableSeats.get();
+    public static synchronized int getAvailableSeats(){
+        return availableSeats.get();
     }
 
     public static synchronized void takeSeat(){
-        avaliableSeats.getAndDecrement();
+        availableSeats.getAndDecrement();
     }
 
     public static synchronized void leaveSeat(){
-        avaliableSeats.getAndIncrement();
+        availableSeats.getAndIncrement();
     }
 
-    public synchronized void updateThreadTimeRemaining(int remainingTime){
+    public synchronized void updateThreadTimeRemaining(int remainingTime){//A method that allows us to keep track of when the longest current running thread will finish
         if (remainingTime > threadTimeRemaining)
             threadTimeRemaining = remainingTime;
     }
 
     public synchronized void check(ArrayList<CustomerThread> customers){
+        try {
+            TimeUnit.MILLISECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (full.get()){
-            if (avaliableSeats.get()==5) {
+            if (availableSeats.get()==5) {
                 time.getAndAdd(5);
                 full.set(false);
 
@@ -64,18 +68,25 @@ public class Restaurant {
 
         for(int i=size; i > 0; i--){
             CustomerThread c = customers.get(0);
-            if (c.getArriveTime()==time.get()){
-                if (getAvaliableSeats()>0){
+            if (c.getArriveTime()<=time.get()){
+                if (getAvailableSeats()>0){
                     customers.remove(c);
                     updateThreadTimeRemaining(c.getEatingLen());
                     finishedCustomers.add(c);
                     enter(c);
-                } else {
-                    full.set(true);
-                    System.out.println("Restaurant full");
-                    break;
+                    if (getAvailableSeats()==0){
+                        full.set(true);
+                        System.out.println("Restaurant full");
+                        break;
+                    }
                 }
             }
+        }
+
+        try {
+            TimeUnit.MILLISECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

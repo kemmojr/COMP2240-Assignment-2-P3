@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class P3 {
     public static void main(String args[]){
-        int avaliableSeats = 5;//Semaphore to manage the number of empty/filled seats
+        int availableSeats = 5;//AtomicInteger to manage the number of empty/filled seats
         int time = 0;
 
         ArrayList<CustomerThread> customers = new ArrayList<>();//Arraylist for storing the customers read in from the file as threads
@@ -39,7 +39,7 @@ public class P3 {
             System.out.println("Reading from file failed");
         }
 
-        Restaurant restaurant = new Restaurant(5, numCustomers);//A restaurant class for managing the seating in the restaurant
+        Restaurant restaurant = new Restaurant(availableSeats, numCustomers);//A restaurant class for managing the seating in the restaurant
 
         while (!restaurant.allServed()){//Continues until all customers have been served
 
