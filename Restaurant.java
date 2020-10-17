@@ -108,7 +108,6 @@ public class Restaurant {
     }
 
     public static void outputStats(){//Ouputs the statistics of the customers
-
         try {
             TimeUnit.MILLISECONDS.sleep(4);//A wait to ensure that all threads have finished executing
         } catch (Exception e){
