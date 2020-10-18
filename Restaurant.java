@@ -37,8 +37,18 @@ public class Restaurant {
 
     //increments the time and negates the passed time from the time left to finish the longest running thread. Is a synchronised method to avoid concurrency errors
     public static synchronized void incrementTime(){
+        try {
+            TimeUnit.MILLISECONDS.sleep(4);//A wait to ensure that the last threads have finished executing
+        } catch (Exception e){
+            System.out.println("Time wait failed");
+        }
         time.getAndIncrement();
         threadTimeRemaining--;
+        try {
+            TimeUnit.MILLISECONDS.sleep(4);//A wait to ensure that the last threads have finished executing
+        } catch (Exception e){
+            System.out.println("Time wait failed");
+        }
     }
 
     //Gets the total number of seats in use. Is a synchronised method to avoid concurrency errors

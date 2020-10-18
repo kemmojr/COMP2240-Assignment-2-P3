@@ -11,7 +11,7 @@ public class CustomerThread extends Thread {//custom thread class from the origi
     private int seatTime, leaveTime;//Thread metric tracking variables
 
     //CustomerThread constructor that initialises all of the information about the thread from the input file
-    public CustomerThread(String id, int aTime, int eLen, int t){
+    public CustomerThread(String id, int aTime, int eLen){
         ID = id;
         arriveTime = aTime;
         eatingLen = eLen;

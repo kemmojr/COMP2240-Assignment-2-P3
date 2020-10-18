@@ -16,7 +16,6 @@ import java.util.Scanner;
 public class P3 {
     public static void main(String args[]){
         int availableSeats = 5;//AtomicInteger to manage the number of empty/filled seats
-        int time = 0;
 
         ArrayList<CustomerThread> customers = new ArrayList<>();//Arraylist for storing the customers read in from the file as threads
         int numCustomers = 0;
@@ -37,7 +36,7 @@ public class P3 {
                 int arriveTime = reader.nextInt();
                 String id = reader.next();
                 int eatingLength = reader.nextInt();
-                customers.add(new CustomerThread(id,arriveTime,eatingLength,time));
+                customers.add(new CustomerThread(id,arriveTime,eatingLength));
             }
 
         } catch (Exception e){
