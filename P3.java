@@ -1,11 +1,16 @@
-
+/*
+COMP2240 Assignment 2 Problem 3
+File: P3.java
+Author: Timothy Kemmis
+Std no. c3329386
+Description: A program to simulate a restaurant with limited seating complying with COVID restrictions
+by managing the seating resources between the incoming customers and waiting for cleaning if the restaurant reaches capacity.
+Solution implemented using monitor with synchronized methods
+*/
 
 import java.io.FileInputStream;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
 
 
 public class P3 {
